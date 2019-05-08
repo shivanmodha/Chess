@@ -12,6 +12,7 @@ import android.graphics.drawable.VectorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 
 public class Board extends View {
@@ -33,8 +34,10 @@ public class Board extends View {
      */
     // Static variables for class differentiation
     private static String TAG = "[Board]";
+    private static String BOARD_EMPTY_STATE = "0000000000000000000000000000000000000000000000000000000000000000";
     // Variables to maintain board state
     private String mBoardState = "9BA87AB9CCCCCCCC000000000000000000000000000000006666666635421453";
+    private String mBoardSelections = BOARD_EMPTY_STATE;
     /*
         This string is the board:
                 9BA87AB9
@@ -64,7 +67,15 @@ public class Board extends View {
             a.recycle();
         }
         initializePaint();
-        
+        setOnTouchListener(new OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                    onClick(event.getX(), event.getY());
+                }
+                return false;
+            }
+        });
     }
     private void initializePaint() {
         paintBlack = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -74,7 +85,6 @@ public class Board extends View {
         paintTransparent = new Paint(Paint.ANTI_ALIAS_FLAG);
     }
     private void initializeImages() {
-        Resources res = getResources();
         mPieceImages[0] = null;
         try {
             mPieceImages[1] = generateBitmap(R.drawable.cp_1);
@@ -95,8 +105,8 @@ public class Board extends View {
         }
     }
     private Bitmap generateBitmap(int drawableId) {
-        int width = mWidth / 8 - 10;
-        int height = mHeight / 8 - 10;
+        int width = mWidth / 8 - 15;
+        int height = mHeight / 8 - 15;
         VectorDrawable drawable = (VectorDrawable) ContextCompat.getDrawable(getContext(), drawableId);
         Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
@@ -110,6 +120,12 @@ public class Board extends View {
         } catch (Exception e) {
             return 0;
         }
+    }
+    private void onClick(float x, float y) {
+        int cellX = (int)(x * 8 / mWidth);
+        int cellY = (int)(y * 8 / mHeight);
+        int charIndex = cellY * 8 + cellX;
+
     }
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
@@ -137,13 +153,13 @@ public class Board extends View {
                     int rX = x * w;
                     int rY = y * h;
                     if (flippy) {
-                        canvas.drawRect(rX - 5, rY - 5, rX + w, rY + h, paintBlack);
+                        canvas.drawRect(rX, rY, rX + w, rY + h, paintBlack);
                     } else {
-                        canvas.drawRect(rX - 5, rY - 5, rX + w, rY + h, paintWhite);
+                        canvas.drawRect(rX, rY, rX + w, rY + h, paintWhite);
                     }
                     int pieceType = getPieceTypeFromCharIndex(charIndex);
                     if (pieceType != 0) {
-                        canvas.drawBitmap(mPieceImages[pieceType], rX, rY, paintTransparent);
+                        canvas.drawBitmap(mPieceImages[pieceType], rX + 7.5f, rY + 7.5f, paintTransparent);
                     }
                     flippy = !flippy;
                 }
@@ -151,5 +167,4 @@ public class Board extends View {
             }
         }
     }
-
 }
