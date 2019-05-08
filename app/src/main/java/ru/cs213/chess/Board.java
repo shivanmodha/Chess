@@ -118,7 +118,7 @@ public class Board extends View {
     }
     public void randomMove() {
         ArrayList<String> moves = mChessBoard.moveSet(currentPlayer);
-        int random = new Random().nextInt((moves.size() - 1));
+        int random = new Random().nextInt((moves.size()));
         CPoint start = new CPoint(moves.get(random).charAt(0), Integer.parseInt(moves.get(random).charAt(1) + ""));
         CPoint end = new CPoint(moves.get(random).charAt(2), Integer.parseInt(moves.get(random).charAt(3) + ""));
         while (!move(start, end)) {
