@@ -36,9 +36,14 @@ public class activity_menu extends AppCompatActivity {
      * @param view Invoker object
      */
     public void newGame(View view) {
-        Log.d(TAG, "newGame: Spawning activity");
         // Create the activity
         Intent intent = new Intent(this, activity_game.class);
+        // Start the activity
+        startActivity(intent);
+    }
+    public void recaps(View view) {
+        // Create the activity
+        Intent intent = new Intent(this, activity_recaps.class);
         // Start the activity
         startActivity(intent);
     }

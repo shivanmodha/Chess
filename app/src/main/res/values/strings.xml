@@ -9,6 +9,8 @@
     <string name="layout_game_player">Player</string>
     <string name="layout_game_quit">Quit</string>
     <string name="layout_game_ai">AI</string>
+    <string name="layout_recaps_back">Back</string>
+    <string name="layout_recaps_sort">Sort</string>
     <string name="turn_w">White\'s Turn</string>
     <string name="turn_b">Black\'s Turn</string>
     <string name="winner_w">White Wins!</string>
