@@ -4,4 +4,6 @@
     <string name="layout_main_recaps">Recaps</string>
     <string name="layout_main_quit">Quit</string>
     <string name="layout_main_title">Chess</string>
+    <string name="layout_game_undo">Undo</string>
+    <string name="chess_logo">Chess Logo</string>
 </resources>
