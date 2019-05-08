@@ -2,9 +2,11 @@ package ru.cs213.chess;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
+import android.app.AlertDialog;
+import android.graphics.Paint;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,9 +16,12 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class activity_game extends Activity {
@@ -40,11 +45,22 @@ public class activity_game extends Activity {
         mHistoryBtn = findViewById(R.id.l_game_history);
         mUndo = findViewById(R.id.l_game_undo);
         mAI = findViewById(R.id.l_game_ai);
+        File directory = getApplicationContext().getFilesDir();
+        File[] f = directory.listFiles();
+        for (int i = 0; i < f.length; i++) {
+            Log.d(TAG, "onCreate: " + f[i]);
+        }
         final activity_game self = this;
         mBoard.setOnStateChangedListener(new OnStateChangedListener() {
             @Override
             public void onStateChanged(String newState, char newPlayer, char winner, char check) {
                 mHistory.add(newState);
+                if (setDraw) {
+                    setDraw = false;
+                    mHistoryBtn.setText("Resign");
+                } else {
+                    mHistoryBtn.setText("Draw");
+                }
                 if (mHistory.size() > 2) {
                     mUndo.setEnabled(true);
                 }
@@ -67,6 +83,22 @@ public class activity_game extends Activity {
                     b.setView(inflator.inflate(R.layout.dialog_gameover, null));
                     b.setPositiveButton("Yes, Save", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
+                            EditText t = ((AlertDialog)dialog).findViewById(R.id.editText);
+                            String name = t.getText().toString();
+                            String filename = name + ".match";
+                            String contents = "";
+                            for (String h : mHistory) {
+                                contents += ":" + h;
+                            }
+                            contents = contents.substring(1);
+                            FileOutputStream outputStream;
+                            try {
+                                outputStream = openFileOutput(filename, Context.MODE_PRIVATE);
+                                outputStream.write(contents.getBytes());
+                                outputStream.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                             self.finish();
                         }
                     });
@@ -77,12 +109,6 @@ public class activity_game extends Activity {
                     });
                     AlertDialog dialog = b.create();
                     dialog.show();
-                }
-                if (setDraw) {
-                    setDraw = false;
-                    mHistoryBtn.setText("Resign");
-                } else {
-                    mHistoryBtn.setText("Draw");
                 }
             }
             @Override
@@ -103,8 +129,7 @@ public class activity_game extends Activity {
     public void onHistory(View view) {
         if (mHistoryBtn.getText() == "Draw") {
             setDraw = true;
-        }
-        if (mHistoryBtn.getText() == "Resign") {
+        } else if (mHistoryBtn.getText() == "Resign") {
             mBoard.draw();
         }
     }

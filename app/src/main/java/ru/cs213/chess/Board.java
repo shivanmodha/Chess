@@ -123,7 +123,7 @@ public class Board extends View {
         CPoint end = new CPoint(moves.get(random).charAt(2), Integer.parseInt(moves.get(random).charAt(3) + ""));
         while (!move(start, end)) {
             moves.remove(random);
-            random = new Random().nextInt((moves.size() - 1));
+            random = new Random().nextInt((moves.size()));
             start = new CPoint(moves.get(random).charAt(0), Integer.parseInt(moves.get(random).charAt(1) + ""));
             end = new CPoint(moves.get(random).charAt(2), Integer.parseInt(moves.get(random).charAt(3) + ""));
         }
