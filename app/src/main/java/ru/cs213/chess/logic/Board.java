@@ -213,4 +213,16 @@ public class Board {
             throw new IllegalMoveException("Illegal move, try again");
         }
     }
+    public ArrayList<String> getMoves(char player, CPoint start) throws IllegalMoveException {
+        Piece p = pieces.get(start.toString());
+        if (p != null) {
+            if (p.getPlayer() == player) {
+                return p.getMoves(this);
+            } else {
+                throw new IllegalMoveException("Illegal move, try again");
+            }
+        } else {
+            throw new IllegalMoveException("Illegal move, try again");
+        }
+    }
 }
