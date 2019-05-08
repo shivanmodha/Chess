@@ -108,4 +108,14 @@ public class activity_recaps extends AppCompatActivity {
         sort++;
         set();
     }
+    public void onClear(View view) {
+        File directory = getApplicationContext().getFilesDir();
+        File[] f = directory.listFiles();
+        for (int i = 0; i < f.length; i++) {
+            if (f[i].getName().endsWith(".match")) {
+                f[i].delete();
+            }
+        }
+        set();
+    }
 }

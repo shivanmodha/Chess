@@ -7,6 +7,22 @@
     tools:context=".activity_recaps">
 
     <Button
+        android:id="@+id/l_recaps_back2"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/b_ripple_white"
+        android:onClick="onClear"
+        android:text="@string/layout_recaps_clear"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/l_recaps_sort"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
         android:id="@+id/l_recaps_back"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
@@ -19,7 +35,7 @@
         android:text="@string/layout_recaps_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.026"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
