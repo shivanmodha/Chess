@@ -1,7 +1,6 @@
 package ru.cs213.chess;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.app.AlertDialog;
@@ -34,7 +33,7 @@ public class activity_game extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game);
         setFinishOnTouchOutside(false);
-        mBoard = findViewById(R.id.l_game_board);
+        mBoard = findViewById(R.id.l_history_board);
         mHistory.add(mBoard.getState());
         mHistoryBtn = findViewById(R.id.l_game_history);
         mUndo = findViewById(R.id.l_game_undo);

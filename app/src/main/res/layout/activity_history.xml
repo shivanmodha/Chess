@@ -4,26 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity_game">
+    tools:context=".activity_history">
 
     <Button
-        android:id="@+id/l_game_quit"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/b_ripple_white"
-        android:onClick="onQuit"
-        android:text="@string/layout_game_quit"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.026"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/l_game_ai"
+        android:id="@+id/l_history_next"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,15 +15,15 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/b_ripple_white"
-        android:onClick="onAI"
-        android:text="@string/layout_game_ai"
+        android:onClick="onNext"
+        android:text="@string/layout_history_next"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/l_game_history"
+        android:id="@+id/l_history_back"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,15 +31,15 @@
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/b_ripple_white"
-        android:onClick="onHistory"
-        android:text="@string/layout_game_history"
+        android:onClick="onBack"
+        android:text="@string/layout_recaps_back"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
-        android:id="@+id/l_game_undo"
+        android:id="@+id/l_history_previous"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,11 +47,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/b_ripple_white"
-        android:enabled="false"
-        android:onClick="onUndo"
-        android:text="@string/layout_game_undo"
+        android:onClick="onPrevious"
+        android:text="@string/layout_history_previous"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -76,25 +59,46 @@
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/l_game_history"
+        app:isPlayable="false"
+        app:layout_constraintBottom_toTopOf="@+id/l_history_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/l_game_undo" />
+        app:layout_constraintTop_toBottomOf="@+id/l_history_previous" />
 
     <TextView
-        android:id="@+id/l_game_player"
+        android:id="@+id/l_history_moves"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="move: 1"
+        app:layout_constraintEnd_toEndOf="@+id/l_history_board"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="@+id/l_history_board"
+        app:layout_constraintTop_toBottomOf="@+id/l_history_board" />
+
+    <TextView
+        android:id="@+id/l_history_player"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
-        android:fontFamily="cursive"
-        android:text="@string/layout_game_player"
-        android:textSize="36sp"
+        android:text="white"
         app:layout_constraintBottom_toTopOf="@+id/l_history_board"
         app:layout_constraintEnd_toEndOf="@+id/l_history_board"
         app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/l_history_board" />
+
+    <TextView
+        android:id="@+id/l_history_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="casual"
+        android:text="@string/layout_main_title"
+        android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/l_history_player"
+        app:layout_constraintEnd_toEndOf="@+id/l_history_board"
         app:layout_constraintStart_toStartOf="@+id/l_history_board" />
 
 </android.support.constraint.ConstraintLayout>

@@ -43,7 +43,7 @@ public class Board extends View {
      *  | Pawn   | 6     | C     |
      *  |--------|-------|-------|
      *
-     * Therefore, a match history is essentially simply an array of strings
+     * Therefore, a match activity_history is essentially simply an array of strings
      */
     // Static variables for class differentiation
     private static String TAG = "[Board]";

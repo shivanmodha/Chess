@@ -11,6 +11,8 @@
     <string name="layout_game_ai">AI</string>
     <string name="layout_recaps_back">Back</string>
     <string name="layout_recaps_sort">Sort</string>
+    <string name="layout_history_previous">Previous</string>
+    <string name="layout_history_next">Next</string>
     <string name="turn_w">White\'s Turn</string>
     <string name="turn_b">Black\'s Turn</string>
     <string name="winner_w">White Wins!</string>
