@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Chess</string>
+    <string name="layout_main_play">Play</string>
+    <string name="layout_main_recaps">Recaps</string>
+    <string name="layout_main_quit">Quit</string>
+    <string name="layout_main_title">Chess</string>
+</resources>
