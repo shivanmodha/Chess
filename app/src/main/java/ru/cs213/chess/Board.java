@@ -48,7 +48,7 @@ public class Board extends View {
     private static String TAG = "[Board]";
     private static String BOARD_EMPTY_STATE = "0000000000000000000000000000000000000000000000000000000000000000";
     // Variables to maintain board state
-    private String mBoardState = "9BA87AB9CCCCCCCC000000000000000000000000000000006666666635421453";
+    private String mBoardState = "9BA87AB9CCCCCCCC000000000000000000000000000000006666666635421453"; //9BA87AB9CCCCCCCC000000000000000000000000000000006666666635421453 //0000700000000000000000000000000000000000000000000000000035421453
     private ArrayList<String> mBoardSelections = new ArrayList<String>();
     /*
         This string is the board:
@@ -79,6 +79,7 @@ public class Board extends View {
     private boolean mIsPlayable;
     private char currentPlayer = 'w';
     private CPoint selectedCell = null;
+    private boolean draw = false;
     private OnStateChangedListener mStateChangedListener;
     public Board(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -93,8 +94,10 @@ public class Board extends View {
             setOnTouchListener(new OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                        onClick(event.getX(), event.getY());
+                    if (mIsPlayable) {
+                        if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                            onClick(event.getX(), event.getY());
+                        }
                     }
                     return false;
                 }
@@ -252,6 +255,12 @@ public class Board extends View {
         } else if (mChessBoard.isBlackChecked()) {
             check = 'b';
         }
+        if (winner == ' ' && draw) {
+            winner = 'd';
+        }
+        if (winner != ' ') {
+            mIsPlayable = false;
+        }
         if (mStateChangedListener != null) {
             mStateChangedListener.onStateChanged(mBoardState, currentPlayer, winner, check);
         }
@@ -283,6 +292,10 @@ public class Board extends View {
         constructStateFromBoard();
         mBoardSelections.clear();
         invalidate();
+    }
+    public void draw() {
+        draw = true;
+        render();
     }
     private void initializePaint() {
         paintBlack = new Paint(Paint.ANTI_ALIAS_FLAG);

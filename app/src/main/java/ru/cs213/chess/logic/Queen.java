@@ -142,7 +142,7 @@ public class Queen extends Piece {
 			
 			validMoves.add(pt.toString());
 		}
-		
+
 		return validMoves;
 	}
 	/**

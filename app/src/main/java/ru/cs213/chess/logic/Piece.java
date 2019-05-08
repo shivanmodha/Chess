@@ -16,7 +16,7 @@ public abstract class Piece {
 	/**
 	* CPoint field that holds a point in the board, initialized with a1 
 	*/
-	private CPoint location = new CPoint('a', 1);
+	public CPoint location = new CPoint('a', 1);
 	/**
 	* Holds the player info, initialized with white 
 	*/
@@ -118,6 +118,7 @@ public abstract class Piece {
 			CPoint to = new CPoint(loc.charAt(0), toI);
 			CPoint oldLoc = this.location;
 			Piece test = env.getPieceAtPoint(to);
+			env.pieces.remove(location.toString());
 			this.location = to;
 			env.pieces.put(location.toString(), this);
 			if (test == null || test.getPlayer() != this.getPlayer()) {
@@ -133,6 +134,7 @@ public abstract class Piece {
 					env.pieces.remove(location.toString());
 				}
 				this.location = oldLoc;
+				env.pieces.put(location.toString(), this);
 			} else if (player == 'b' && env.isBlackChecked()) {
 				if (test != null) {
 					env.pieces.put(location.toString(), test);
@@ -141,6 +143,7 @@ public abstract class Piece {
 					env.pieces.remove(location.toString());
 				}
 				this.location = oldLoc;
+				env.pieces.put(location.toString(), this);
 			} else {
 				if (test != null) {
 					env.pieces.put(location.toString(), test);
@@ -149,6 +152,7 @@ public abstract class Piece {
 					env.pieces.remove(location.toString());
 				}
 				this.location = oldLoc;
+				env.pieces.put(location.toString(), this);
 				return true;
 			}
 		}
@@ -178,7 +182,6 @@ public abstract class Piece {
 					test.setVisible(false);
 				}
 			}
-			Log.d("TEST", "move: " + bC + ", " + player + ", " + env.isBlackChecked() + ", \n" + env.render());
 			if (player == 'w' && env.isWhiteChecked()) {
 				if (test != null) {
 					env.pieces.put(location.toString(), test);
@@ -258,12 +261,16 @@ public abstract class Piece {
 			if (this instanceof King && numberOfMoves == 0 && (this.location.getRawX() == 'g')) {
 				CPoint pos = new CPoint('h', this.location.getRawY());
 				Piece rook = env.getPieceAtPoint(pos);
-				rook.location = new CPoint('f', this.location.getRawY());
+				if (rook != null) {
+					rook.location = new CPoint('f', this.location.getRawY());
+				}
 			}
 			if (this instanceof King && numberOfMoves == 0 && (this.location.getRawX() == 'b')) {
 				CPoint pos = new CPoint('a', this.location.getRawY());
 				Piece rook = env.getPieceAtPoint(pos);
-				rook.location = new CPoint('c', this.location.getRawY());
+				if (rook != null) {
+					rook.location = new CPoint('c', this.location.getRawY());
+				}
 			}
 			numberOfMoves++;
 		} else {

@@ -140,14 +140,14 @@ public class King extends Piece {
 				if ((env.getPieceAtPoint(new CPoint('f', 1)) == null) && (env.getPieceAtPoint(new CPoint('g', 1)) == null) && (env.getPieceAtPoint(new CPoint('h', 1)) != null) && (env.getPieceAtPoint(new CPoint('h', 1)).getNumberOfMoves() == 0)) {
 					validMoves.add("g1");
 				}
-				if ((env.getPieceAtPoint(new CPoint('d', 1)) == null) && (env.getPieceAtPoint(new CPoint('c', 1)) == null) && (env.getPieceAtPoint(new CPoint('b', 1)) == null) && (env.getPieceAtPoint(new CPoint('a', 1)).getNumberOfMoves() == 0)) {
+				if ((env.getPieceAtPoint(new CPoint('d', 1)) == null) && (env.getPieceAtPoint(new CPoint('c', 1)) == null) && (env.getPieceAtPoint(new CPoint('b', 1)) == null) && (env.getPieceAtPoint(new CPoint('a', 1)) != null) && (env.getPieceAtPoint(new CPoint('a', 1)).getNumberOfMoves() == 0)) {
 					validMoves.add("b1");
 				}
 			} else if (getPlayer() == 'b') {
 				if ((env.getPieceAtPoint(new CPoint('f', 8)) == null) && (env.getPieceAtPoint(new CPoint('g', 8)) == null) && (env.getPieceAtPoint(new CPoint('h', 8)) != null) && (env.getPieceAtPoint(new CPoint('h', 8)).getNumberOfMoves() == 0)) {
 					validMoves.add("g8");
 				}
-				if ((env.getPieceAtPoint(new CPoint('d', 8)) == null) && (env.getPieceAtPoint(new CPoint('c', 8)) == null) && (env.getPieceAtPoint(new CPoint('b', 8)) == null) && (env.getPieceAtPoint(new CPoint('a', 8)).getNumberOfMoves() == 0)) {
+				if ((env.getPieceAtPoint(new CPoint('d', 8)) == null) && (env.getPieceAtPoint(new CPoint('c', 8)) == null) && (env.getPieceAtPoint(new CPoint('b', 8)) == null) && (env.getPieceAtPoint(new CPoint('a', 8)) != null) && (env.getPieceAtPoint(new CPoint('a', 8)).getNumberOfMoves() == 0)) {
 					validMoves.add("b8");
 				}
 			}
@@ -159,6 +159,51 @@ public class King extends Piece {
 				validMoves.remove(i);
 			}
 		}
+
+		/*for (String move : validMoves) {
+			// emulate the move
+			CPoint to = new CPoint(move.charAt(0), Integer.parseInt(move.charAt(1) + ""));
+			CPoint oldLoc = this.getLocation();
+			Piece test = env.getPieceAtPoint(to);
+			env.pieces.remove(location.toString());
+			this.location = to;
+			env.pieces.put(location.toString(), this);
+			if (test == null || test.getPlayer() != this.getPlayer()) {
+				if (test != null) {
+					test.setVisible(false);
+				}
+			}
+			if (getPlayer() == 'w' && env.isWhiteChecked()) {
+				if (test != null) {
+					env.pieces.put(location.toString(), test);
+					test.setVisible(true);
+				} else {
+					env.pieces.remove(location.toString());
+				}
+				this.location = oldLoc;
+				env.pieces.put(location.toString(), this);
+				validMoves.remove(move);
+			} else if (getPlayer() == 'b' && env.isBlackChecked()) {
+				if (test != null) {
+					env.pieces.put(location.toString(), test);
+					test.setVisible(true);
+				} else {
+					env.pieces.remove(location.toString());
+				}
+				this.location = oldLoc;
+				env.pieces.put(location.toString(), this);
+				validMoves.remove(move);
+			} else {
+				if (test != null) {
+					env.pieces.put(location.toString(), test);
+					test.setVisible(true);
+				} else {
+					env.pieces.remove(location.toString());
+				}
+				this.location = oldLoc;
+				env.pieces.put(location.toString(), this);
+			}
+		}*/
 
 		return validMoves;
 	}

@@ -86,7 +86,7 @@ public class Bishop extends Piece {
 			
 			validMoves.add(pt.toString());
 		}
-		
+
 		return validMoves;
 	}
 	
