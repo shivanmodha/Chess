@@ -138,9 +138,9 @@ public class Board {
     
     /**
 	   * This method is draw each line.
-	   * @return Nothing.
+	   * @return String.
 	   */
-    public void render() {
+    public String render() {
         String renderString = "";
         for (int i = 0; i < this.innerBoard.length; i++) {
             String line = "";
@@ -150,7 +150,7 @@ public class Board {
             line += "" + ((i != 8) ? (8 - i) : (""));
             renderString += line + "\n";
         }
-        System.out.println(renderString);
+        return renderString;
     }
     
     /**

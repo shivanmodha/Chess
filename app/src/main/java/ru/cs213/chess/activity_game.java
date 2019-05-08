@@ -8,6 +8,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -34,6 +35,10 @@ public class activity_game extends AppCompatActivity {
                     mUndo.setEnabled(true);
                 }
                 setCurrentPlayer(newPlayer);
+            }
+            @Override
+            public void snack(String message) {
+                Toast.makeText(activity_game.this, message, Toast.LENGTH_SHORT).show();
             }
         });
         mPlayer = findViewById(R.id.l_game_player);

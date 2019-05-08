@@ -1,5 +1,7 @@
 package ru.cs213.chess.logic;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 /**
@@ -163,9 +165,12 @@ public abstract class Piece {
 	public void move(Board env, CPoint to) throws IllegalMoveException {
 		ArrayList<String> validLocations = this.getMoves(env);
 		if (validLocations != null && validLocations.contains(to.toString())) {
+			boolean wC = env.isWhiteChecked();
+			boolean bC = env.isBlackChecked();
 			// emulate the move
 			CPoint oldLoc = this.location;
 			Piece test = env.getPieceAtPoint(to);
+			env.pieces.remove(location.toString());
 			this.location = to;
 			env.pieces.put(location.toString(), this);
 			if (test == null || test.getPlayer() != this.getPlayer()) {
@@ -173,6 +178,7 @@ public abstract class Piece {
 					test.setVisible(false);
 				}
 			}
+			Log.d("TEST", "move: " + bC + ", " + player + ", " + env.isBlackChecked() + ", \n" + env.render());
 			if (player == 'w' && env.isWhiteChecked()) {
 				if (test != null) {
 					env.pieces.put(location.toString(), test);
@@ -181,6 +187,7 @@ public abstract class Piece {
 					env.pieces.remove(location.toString());
 				}
 				this.location = oldLoc;
+				env.pieces.put(location.toString(), this);
 				throw new IllegalMoveException("Illegal move, try again");
 			} else if (player == 'b' && env.isBlackChecked()) {
 				if (test != null) {
@@ -190,6 +197,7 @@ public abstract class Piece {
 					env.pieces.remove(location.toString());
 				}
 				this.location = oldLoc;
+				env.pieces.put(location.toString(), this);
 				throw new IllegalMoveException("Illegal move, try again");
 			} else {
 				if (test != null) {
@@ -199,6 +207,7 @@ public abstract class Piece {
 					env.pieces.remove(location.toString());
 				}
 				this.location = oldLoc;
+				env.pieces.put(location.toString(), this);
 			}
 			// enpassant
 			if (this instanceof Pawn) {

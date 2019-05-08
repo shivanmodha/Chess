@@ -69,6 +69,7 @@ public class Board extends View {
     private Paint paintWhite;
     private Paint paintTransparent;
     private Paint paintSelected;
+    private Paint paintChecked;
     private Bitmap[] mPieceImages = new Bitmap[17];
     private boolean mInitializeFailed = false;
     private ru.cs213.chess.logic.Board mChessBoard = new ru.cs213.chess.logic.Board();
@@ -291,6 +292,8 @@ public class Board extends View {
         paintTransparent = new Paint(Paint.ANTI_ALIAS_FLAG);
         paintSelected = new Paint(Paint.ANTI_ALIAS_FLAG);
         paintSelected.setColor(Color.argb(50, 0, 0, 100));
+        paintChecked = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paintChecked.setColor(Color.argb(50, 100, 0, 0));
     }
     private void initializeImages() {
         mPieceImages[0] = null;
@@ -362,6 +365,9 @@ public class Board extends View {
                 selectedCell = null;
                 render();
             } catch (IllegalMoveException e) {
+                if (mStateChangedListener != null) {
+                    mStateChangedListener.snack("Protect the king!");
+                }
                 Log.d(TAG, "onClick: " + e.getMessage());
             }
         }
@@ -401,6 +407,12 @@ public class Board extends View {
                         canvas.drawRect(rX, rY, rX + w, rY + h, paintSelected);
                     }
                     int pieceType = getPieceTypeFromCharIndex(charIndex);
+                    if (pieceType == 1 && mChessBoard.isWhiteChecked()) {
+                        canvas.drawRect(rX, rY, rX + w, rY + h, paintChecked);
+                    }
+                    if (pieceType == 7 && mChessBoard.isBlackChecked()) {
+                        canvas.drawRect(rX, rY, rX + w, rY + h, paintChecked);
+                    }
                     if (pieceType != 0) {
                         canvas.drawBitmap(mPieceImages[pieceType], rX + 7.5f, rY + 7.5f, paintTransparent);
                     }
