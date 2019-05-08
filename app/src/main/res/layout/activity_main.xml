@@ -59,7 +59,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:fontFamily="sans-serif-condensed"
+        android:fontFamily="cursive"
         android:text="@string/layout_main_title"
         android:textSize="100sp"
         app:layout_constraintBottom_toTopOf="@+id/l_main_btn_play"

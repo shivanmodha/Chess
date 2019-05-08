@@ -14,6 +14,11 @@ public class Pawn extends Piece {
 	public Pawn(char _player, CPoint _location) {
 		super(_player, _location, new Cell(_player + "p"));
 	}
+	public Pawn(char _player, CPoint _location, int _moves, boolean _enpassant) {
+		this(_player, _location);
+		this.setEnpassant(_enpassant);
+		this.setNumberOfMoves(_moves);
+	}
 	/**
 	   * This method is used determine possible moves the Pawn piece can make
 	   * @param env This parameter is a Board type that has the current Board information

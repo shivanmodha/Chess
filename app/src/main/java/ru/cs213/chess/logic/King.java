@@ -137,14 +137,14 @@ public class King extends Piece {
 
 		if (getNumberOfMoves() == 0) {
 			if (getPlayer() == 'w') {
-				if ((env.getPieceAtPoint(new CPoint('f', 1)) == null) && (env.getPieceAtPoint(new CPoint('g', 1)) == null) && (env.getPieceAtPoint(new CPoint('h', 1)).getNumberOfMoves() == 0)) {
+				if ((env.getPieceAtPoint(new CPoint('f', 1)) == null) && (env.getPieceAtPoint(new CPoint('g', 1)) == null) && (env.getPieceAtPoint(new CPoint('h', 1)) != null) && (env.getPieceAtPoint(new CPoint('h', 1)).getNumberOfMoves() == 0)) {
 					validMoves.add("g1");
 				}
 				if ((env.getPieceAtPoint(new CPoint('d', 1)) == null) && (env.getPieceAtPoint(new CPoint('c', 1)) == null) && (env.getPieceAtPoint(new CPoint('b', 1)) == null) && (env.getPieceAtPoint(new CPoint('a', 1)).getNumberOfMoves() == 0)) {
 					validMoves.add("b1");
 				}
 			} else if (getPlayer() == 'b') {
-				if ((env.getPieceAtPoint(new CPoint('f', 8)) == null) && (env.getPieceAtPoint(new CPoint('g', 8)) == null) && (env.getPieceAtPoint(new CPoint('h', 8)).getNumberOfMoves() == 0)) {
+				if ((env.getPieceAtPoint(new CPoint('f', 8)) == null) && (env.getPieceAtPoint(new CPoint('g', 8)) == null) && (env.getPieceAtPoint(new CPoint('h', 8)) != null) && (env.getPieceAtPoint(new CPoint('h', 8)).getNumberOfMoves() == 0)) {
 					validMoves.add("g8");
 				}
 				if ((env.getPieceAtPoint(new CPoint('d', 8)) == null) && (env.getPieceAtPoint(new CPoint('c', 8)) == null) && (env.getPieceAtPoint(new CPoint('b', 8)) == null) && (env.getPieceAtPoint(new CPoint('a', 8)).getNumberOfMoves() == 0)) {

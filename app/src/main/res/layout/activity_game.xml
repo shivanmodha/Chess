@@ -7,7 +7,23 @@
     tools:context=".activity_game">
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/l_game_history"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/b_ripple_white"
+        android:onClick="onHistory"
+        android:text="@string/layout_game_history"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/l_game_undo"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -15,6 +31,8 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/b_ripple_white"
+        android:enabled="false"
+        android:onClick="onUndo"
         android:text="@string/layout_game_undo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
@@ -22,15 +40,29 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ru.cs213.chess.Board
+        android:id="@+id/l_game_board"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/l_game_history"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/l_game_undo" />
+
+    <TextView
+        android:id="@+id/l_game_player"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="cursive"
+        android:text="@string/layout_game_player"
+        android:textSize="36sp"
+        app:layout_constraintBottom_toTopOf="@+id/l_game_board"
+        app:layout_constraintEnd_toEndOf="@+id/l_game_board"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/l_game_board" />
 
 </android.support.constraint.ConstraintLayout>

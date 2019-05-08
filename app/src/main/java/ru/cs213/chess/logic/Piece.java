@@ -268,6 +268,14 @@ public abstract class Piece {
 	public int getNumberOfMoves() {
 		return numberOfMoves;
 	}
+
+	/**
+	 * Sets the current number of moves
+	 * @param _in Number of moves
+	 */
+	public void setNumberOfMoves(int _in) {
+		numberOfMoves = _in;
+	}
 	 /**
 	   * This method helps draw in a cell that is visible, it also checks 
 	   * if enpassant is possible with a pawn.

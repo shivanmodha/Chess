@@ -69,7 +69,7 @@ public class Board extends View {
     private Paint paintWhite;
     private Paint paintTransparent;
     private Paint paintSelected;
-    private Bitmap[] mPieceImages = new Bitmap[13];
+    private Bitmap[] mPieceImages = new Bitmap[17];
     private boolean mInitializeFailed = false;
     private ru.cs213.chess.logic.Board mChessBoard = new ru.cs213.chess.logic.Board();
     private ArrayList<Piece> pieces = new ArrayList<Piece>();
@@ -78,6 +78,7 @@ public class Board extends View {
     private boolean mIsPlayable;
     private char currentPlayer = 'w';
     private CPoint selectedCell = null;
+    private OnStateChangedListener mStateChangedListener;
     public Board(Context context, AttributeSet attrs) {
         super(context, attrs);
         TypedArray a = context.getTheme().obtainStyledAttributes(attrs, R.styleable.Board,0, 0);
@@ -87,16 +88,28 @@ public class Board extends View {
             a.recycle();
         }
         initializePaint();
-        setOnTouchListener(new OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                    onClick(event.getX(), event.getY());
+        if (mIsPlayable) {
+            setOnTouchListener(new OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                        onClick(event.getX(), event.getY());
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }
         constructChessBoardFromState();
+    }
+    public void setOnStateChangedListener(OnStateChangedListener _listener) {
+        mStateChangedListener = _listener;
+    }
+    public void setState(String state) {
+        mBoardState = state;
+        constructChessBoardFromState();
+    }
+    public String getState() {
+        return mBoardState;
     }
     private void constructChessBoardFromState() {
         pieces.clear();
@@ -144,6 +157,18 @@ public class Board extends View {
                 case 12:
                     p = new Pawn('b', charIndexToCPoint(i));
                     break;
+                case 13:
+                    p = new Pawn('w', charIndexToCPoint(i), 1, false);
+                    break;
+                case 14:
+                    p = new Pawn('b', charIndexToCPoint(i), 1, false);
+                    break;
+                case 15:
+                    p = new Pawn('w', charIndexToCPoint(i), 1, true);
+                    break;
+                case 16:
+                    p = new Pawn('b', charIndexToCPoint(i), 1, true);
+                    break;
             }
             if (p != null) {
                 pieces.add(p);
@@ -153,6 +178,7 @@ public class Board extends View {
         for (Piece p : pieces) {
             p.render(mChessBoard, currentPlayer);
         }
+        render();
     }
     private void constructStateFromBoard() {
         mBoardState = BOARD_EMPTY_STATE;
@@ -187,10 +213,50 @@ public class Board extends View {
                 } else if (pieceType == 12) {
                     pT = "C";
                 }
+                if (piece instanceof Pawn) {
+                    if (piece.getNumberOfMoves() != 0) {
+                        if (piece.getEnpassant()) {
+                            if ((piece.getPlayer() + "").equals("b")) {
+                                pT = "G";
+                            } else {
+                                pT = "F";
+                            }
+                        } else {
+                            if ((piece.getPlayer() + "").equals("b")) {
+                                pT = "E";
+                            } else {
+                                pT = "D";
+                            }
+                        }
+                    }
+                }
                 int charIndex = point.getY() * 8 + point.getX();
                 mBoardState = mBoardState.substring(0, charIndex) + pT + mBoardState.substring(charIndex + 1);
             }
         }
+        // Check for a check/checkmate
+        char winner = ' ';
+        char check = ' ';
+        if (!mChessBoard.emulate('w')) {
+            // White is in checkmate, black wins
+            winner = 'b';
+            mIsPlayable = false;
+        } else if (!mChessBoard.emulate('b')) {
+            // Black is in checkmate, white wins
+            winner = 'w';
+            mIsPlayable = false;
+        } else if (mChessBoard.isWhiteChecked()) {
+            // White is checked
+            check = 'w';
+        } else if (mChessBoard.isBlackChecked()) {
+            check = 'b';
+        }
+        if (mStateChangedListener != null) {
+            mStateChangedListener.onStateChanged(mBoardState, currentPlayer, winner, check);
+        }
+    }
+    public char getPlayer() {
+        return currentPlayer;
     }
     private void render() {
         mChessBoard.clear();
@@ -212,9 +278,6 @@ public class Board extends View {
         }
         for (Piece p : pieces) {
             p.render(mChessBoard, currentPlayer);
-        }
-        if (mIsPlayable) {
-            // TODO Implement me
         }
         constructStateFromBoard();
         mBoardSelections.clear();
@@ -244,6 +307,10 @@ public class Board extends View {
             mPieceImages[10] = generateBitmap(R.drawable.cp_10);
             mPieceImages[11] = generateBitmap(R.drawable.cp_11);
             mPieceImages[12] = generateBitmap(R.drawable.cp_12);
+            mPieceImages[13] = generateBitmap(R.drawable.cp_6);
+            mPieceImages[14] = generateBitmap(R.drawable.cp_12);
+            mPieceImages[15] = generateBitmap(R.drawable.cp_6);
+            mPieceImages[16] = generateBitmap(R.drawable.cp_12);
             mInitializeFailed = false;
         } catch (Exception e) {
             mInitializeFailed = true;
@@ -261,7 +328,7 @@ public class Board extends View {
     }
     private int getPieceTypeFromCharIndex(int idx) {
         try {
-            return Integer.parseInt(mBoardState.charAt(idx) + "", 16);
+            return Integer.parseInt(mBoardState.charAt(idx) + "", 17);
         } catch (Exception e) {
             return 0;
         }
@@ -292,6 +359,7 @@ public class Board extends View {
                 } else if (currentPlayer == 'b') {
                     currentPlayer = 'w';
                 }
+                selectedCell = null;
                 render();
             } catch (IllegalMoveException e) {
                 Log.d(TAG, "onClick: " + e.getMessage());
@@ -311,7 +379,6 @@ public class Board extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        Log.d(TAG, "onDraw: " + mBoardState);
         if (mPieceImages[1] == null && !mInitializeFailed) {
             initializeImages();
         }
@@ -319,29 +386,19 @@ public class Board extends View {
             int w = mWidth / 8;
             int h = mHeight / 8;
             boolean flippy = false;
-            for (String i : mBoardSelections) {
-                int toI = -1;
-                try {
-                    toI = Integer.parseInt("" + i.charAt(1));
-                } catch(Exception e) {
-
-                }
-                CPoint to = new CPoint(i.charAt(0), toI);
-                int x = to.getX() * w;
-                int y = to.getY() * h;
-                canvas.drawRect(x, y, x + w, y + h, paintSelected);
-            }
             for (int y = 0; y < 8; y++) {
                 for (int x = 0; x < 8; x++) {
                     int charIndex = y * 8 + x;
                     int rX = x * w;
                     int rY = y * h;
-                    if (!mBoardSelections.contains(charIndexToCPoint(charIndex).toString())) {
+                    if (!mBoardSelections.contains(charIndexToCPoint(charIndex).toString()) && !charIndexToCPoint(charIndex).equals(selectedCell)) {
                         if (flippy) {
                             canvas.drawRect(rX, rY, rX + w, rY + h, paintBlack);
                         } else {
                             canvas.drawRect(rX, rY, rX + w, rY + h, paintWhite);
                         }
+                    } else {
+                        canvas.drawRect(rX, rY, rX + w, rY + h, paintSelected);
                     }
                     int pieceType = getPieceTypeFromCharIndex(charIndex);
                     if (pieceType != 0) {

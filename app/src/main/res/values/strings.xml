@@ -5,5 +5,9 @@
     <string name="layout_main_quit">Quit</string>
     <string name="layout_main_title">Chess</string>
     <string name="layout_game_undo">Undo</string>
+    <string name="layout_game_history">History</string>
+    <string name="layout_game_player">Player</string>
+    <string name="turn_w">White\'s Turn</string>
+    <string name="turn_b">Black\'s Turn</string>
     <string name="chess_logo">Chess Logo</string>
 </resources>
