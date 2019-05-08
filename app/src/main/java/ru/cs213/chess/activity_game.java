@@ -112,7 +112,7 @@ public class activity_game extends Activity {
         this.finish();
     }
     public void onAI(View view) {
-
+        mBoard.randomMove();
     }
     private void setCurrentWinner(char player) {
         if (player == 'w') {

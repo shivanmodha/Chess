@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import ru.cs213.chess.logic.Bishop;
 import ru.cs213.chess.logic.CPoint;
@@ -114,6 +115,18 @@ public class Board extends View {
     }
     public String getState() {
         return mBoardState;
+    }
+    public void randomMove() {
+        ArrayList<String> moves = mChessBoard.moveSet(currentPlayer);
+        int random = new Random().nextInt((moves.size() - 1));
+        CPoint start = new CPoint(moves.get(random).charAt(0), Integer.parseInt(moves.get(random).charAt(1) + ""));
+        CPoint end = new CPoint(moves.get(random).charAt(2), Integer.parseInt(moves.get(random).charAt(3) + ""));
+        while (!move(start, end)) {
+            moves.remove(random);
+            random = new Random().nextInt((moves.size() - 1));
+            start = new CPoint(moves.get(random).charAt(0), Integer.parseInt(moves.get(random).charAt(1) + ""));
+            end = new CPoint(moves.get(random).charAt(2), Integer.parseInt(moves.get(random).charAt(3) + ""));
+        }
     }
     private void constructChessBoardFromState() {
         pieces.clear();
@@ -368,21 +381,27 @@ public class Board extends View {
             }
             invalidate();
         } else {
-            try {
-                mChessBoard.move(currentPlayer, selectedCell, point);
-                if (currentPlayer == 'w') {
-                    currentPlayer = 'b';
-                } else if (currentPlayer == 'b') {
-                    currentPlayer = 'w';
-                }
-                selectedCell = null;
-                render();
-            } catch (IllegalMoveException e) {
+            if (!move(selectedCell, point)) {
                 if (mStateChangedListener != null) {
                     mStateChangedListener.snack("Protect the king!");
                 }
-                Log.d(TAG, "onClick: " + e.getMessage());
             }
+        }
+    }
+    private boolean move(CPoint start, CPoint end) {
+        try {
+            mChessBoard.move(currentPlayer, start, end);
+            if (currentPlayer == 'w') {
+                currentPlayer = 'b';
+            } else if (currentPlayer == 'b') {
+                currentPlayer = 'w';
+            }
+            selectedCell = null;
+            render();
+            return true;
+        } catch (IllegalMoveException e) {
+            Log.d(TAG, "onClick: " + e.getMessage());
+            return false;
         }
     }
     @Override

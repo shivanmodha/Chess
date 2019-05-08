@@ -187,6 +187,27 @@ public class Board {
         }
         return validMoves;
     }
+
+    /**
+     * Return all available moves
+     * @param player representation of the player that we want to run this for
+     * @return List of moves
+     */
+    public ArrayList<String> moveSet(char player) {
+        HashMap<String, Integer> set = new HashMap<String, Integer>();
+        ArrayList<String> validMoves = new ArrayList<String>();
+        String[] ps = pieces.keySet().toArray(new String[pieces.keySet().size()]);
+        for (String o : ps) {
+            Piece p = pieces.get(o);
+            if (p.getPlayer() == player && p.getVisible() == true) {
+                ArrayList<String> moves = p.getMoves(this);
+                for (String m : moves) {
+                    validMoves.add(p.getLocation().toString() + m);
+                }
+            }
+        }
+        return validMoves;
+    }
     
     /**
 	   * This method does the function where the pieces actually moves
