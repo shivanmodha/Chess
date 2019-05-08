@@ -127,7 +127,7 @@ public class Board extends View {
                 case 7:
                     p = new King('b', charIndexToCPoint(i));
                     blackKing = (King)p;
-                    mChessBoard.setWhiteKing(blackKing);
+                    mChessBoard.setBlackKing(blackKing);
                     break;
                 case 8:
                     p = new Queen('b', charIndexToCPoint(i));
@@ -287,6 +287,11 @@ public class Board extends View {
         } else {
             try {
                 mChessBoard.move(currentPlayer, selectedCell, point);
+                if (currentPlayer == 'w') {
+                    currentPlayer = 'b';
+                } else if (currentPlayer == 'b') {
+                    currentPlayer = 'w';
+                }
                 render();
             } catch (IllegalMoveException e) {
                 Log.d(TAG, "onClick: " + e.getMessage());
