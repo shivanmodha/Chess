@@ -1,5 +1,6 @@
 package ru.cs213.chess;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -8,10 +9,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.drawable.VectorDrawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
+import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -408,8 +411,13 @@ public class Board extends View {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int minw = getPaddingLeft() + getPaddingRight() + getSuggestedMinimumWidth();
         int w = resolveSizeAndState(minw, widthMeasureSpec, 1);
-        int minh = MeasureSpec.getSize(w) + getPaddingBottom() + getPaddingTop();
+        int minh = MeasureSpec.getSize(w) + getPaddingBottom() + getPaddingTop() + 100;
         int h = resolveSizeAndState(minh, heightMeasureSpec, 0);
+        Display display = ((Activity)getContext()).getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        w = size.x - 100;
+        h = size.x - 100;
         mWidth = w;
         mHeight = h;
         setMeasuredDimension(w, h);

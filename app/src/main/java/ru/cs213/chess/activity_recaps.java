@@ -10,6 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ import java.util.ArrayList;
 
 public class activity_recaps extends AppCompatActivity {
     ListView mList;
+    Button mSort;
     int sort = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,17 +31,22 @@ public class activity_recaps extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_recaps);
         mList = findViewById(R.id.l_recaps_list);
+        mSort = findViewById(R.id.l_recaps_sort);
         set();
     }
     public void set() {
         String[] list = getList(sort);
+        if (sort % 2 == 0) {
+            mSort.setText("Sort by Date");
+        } else {
+            mSort.setText("Sort by AZ");
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.listitems, list);
         mList.setAdapter(adapter);
         final activity_recaps self = this;
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                File file = new File(getApplicationContext().getFilesDir(), ((TextView)view).getText() + "");
                 FileInputStream inputStream;
                 try {
                     inputStream = openFileInput(((TextView)view).getText() + "");
@@ -77,7 +84,7 @@ public class activity_recaps extends AppCompatActivity {
                 boolean added = false;
                 for (int j = 0; j < list.size(); j++) {
                     if (sortStyle % 2 ==  0) {
-                        if (f[i].getName().compareTo(list.get(j).getName()) < 0) {
+                        if (f[i].getName().toLowerCase().compareTo(list.get(j).getName().toLowerCase()) < 0) {
                             added = true;
                             list.add(j, f[i]);
                             break;
@@ -93,6 +100,7 @@ public class activity_recaps extends AppCompatActivity {
                 if (!added) {
                     list.add(f[i]);
                 }
+                Log.d("TEST", "getList: " + list);
             }
         }
         String[] _return = new String[list.size()];

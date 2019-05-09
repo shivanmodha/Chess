@@ -33,7 +33,7 @@ public class activity_game extends Activity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_game);
         setFinishOnTouchOutside(false);
-        mBoard = findViewById(R.id.l_history_board);
+        mBoard = findViewById(R.id.l_game_board);
         mHistory.add(mBoard.getState());
         mHistoryBtn = findViewById(R.id.l_game_history);
         mUndo = findViewById(R.id.l_game_undo);
@@ -87,12 +87,12 @@ public class activity_game extends Activity {
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            self.finish();
+                            //self.finish();
                         }
                     });
                     b.setNegativeButton("No", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-                            self.finish();
+                            //self.finish();
                         }
                     });
                     AlertDialog dialog = b.create();

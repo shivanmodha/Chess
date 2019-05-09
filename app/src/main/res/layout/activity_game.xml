@@ -72,7 +72,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ru.cs213.chess.Board
-        android:id="@+id/l_history_board"
+        android:id="@+id/l_game_board"
         android:layout_width="300dp"
         android:layout_height="300dp"
         android:layout_marginStart="8dp"
@@ -92,9 +92,9 @@
         android:fontFamily="cursive"
         android:text="@string/layout_game_player"
         android:textSize="36sp"
-        app:layout_constraintBottom_toTopOf="@+id/l_history_board"
-        app:layout_constraintEnd_toEndOf="@+id/l_history_board"
+        app:layout_constraintBottom_toTopOf="@+id/l_game_board"
+        app:layout_constraintEnd_toEndOf="@+id/l_game_board"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/l_history_board" />
+        app:layout_constraintStart_toStartOf="@+id/l_game_board" />
 
 </android.support.constraint.ConstraintLayout>
